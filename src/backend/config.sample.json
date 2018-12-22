@@ -1,0 +1,11 @@
+{
+    "session_secret": "replace me",
+    "admin_password": "",
+    "ports": {
+        "http": 80,
+        "https": 443,
+        "letsencrypt": 9990,
+        "admin": 3330
+    },
+    "routes": []
+}

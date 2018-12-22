@@ -1,0 +1,50 @@
+{
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "name": "entranced",
+  "version": "0.0.1",
+  "description": "",
+  "main": "entranced.js",
+  "bin": {
+    "entranced": "./entranced.js"
+  },
+  "scripts": {
+    "dev": "npm run dev-backend & npm run dev-frontend",
+    "build": "npm run clear && npm run build-backend && npm run build-frontend",
+    "start": "node entranced.js",
+    "build-backend": "cross-env NODE_ENV=production parcel build src/backend/main.ts --public-url . --out-dir ./dist/ --target node",
+    "dev-backend": "parcel watch src/backend/main.ts --out-dir ./dist/  --target node",
+    "build-frontend": "cross-env NODE_ENV=production parcel build src/frontend/index.html --public-url . --out-dir ./dist/www/",
+    "dev-frontend": "parcel watch src/frontend/index.html --public-url . --out-dir ./dist/www/",
+    "clear": "rm -rf .cache & rm -rf dist"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/express-session": "^1.15.10",
+    "@types/socket.io": "^1.4.36",
+    "@types/socket.io-client": "^1.4.32",
+    "cross-env": "latest",
+    "node-sass": "^4.9.2",
+    "parcel-bundler": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "plumbing-toolkit": "^0.6.5",
+    "preact": "^8.2.9",
+    "pretty-json-stringify": "0.0.2",
+    "redbird": "^0.9.0",
+    "restyped-axios": "^2.0.0",
+    "restyped-express-async": "^0.6.1",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  }
+}

@@ -1,0 +1,23 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+body {
+    font-family: Montserrat, bold;
+    background-color: #ffffff;
+    overflow: hidden;
+    color: #222222;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+
+    a {
+        &:visited {
+            color: #222222;
+        }
+    }
+}
