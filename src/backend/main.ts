@@ -39,6 +39,9 @@ export async function main()
         bunyan: false
     });
     const routeStorage = new RouteStorage(config_path, proxy);
+
+    await routeStorage.load();
+
     const app = express();
     const server = createServer(app);
     

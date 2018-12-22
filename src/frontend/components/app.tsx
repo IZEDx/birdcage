@@ -3,6 +3,7 @@ import { h, Component } from "preact";
 import { api } from "../api";
 import { Route } from "../../shared/admin-api";
 import { Routes } from "./routes";
+import { AddRoute } from "./addroute";
 
 export interface AppProps {
 }
@@ -19,12 +20,22 @@ export class App extends Component<AppProps, AppState> {
 
     async componentDidMount() {
         const {data} = await api.get("/routes");
-        console.log(data);
-        console.log(await (await fetch("./api/routes")).text());
         this.setState({ routes: data });
     }
 
+    async routeAdded(source: string, target: string)
+    {
+        this.setState({
+            routes: [...this.state.routes, {source, target}]
+        });
+    }
+
     render(props: AppProps, state: AppState) {
-        return <Routes routes={this.state.routes}></Routes>;
+        return (
+            <section className="routesContainer">
+                <Routes routes={this.state.routes}></Routes>
+                <AddRoute routeAdded={this.routeAdded.bind(this)} />
+            </section>
+        );
     }
 }

@@ -3,12 +3,14 @@ import { AdminAPI } from "../shared/admin-api";
 import RestypedRouter from 'restyped-express-async';
 import { Router } from "express";
 import { RouteStorage } from "./storage";
+import { log } from "./libs/utils";
 
 export function registerAPI(apiRouter: Router, storage: RouteStorage)
 {
     const router = RestypedRouter<AdminAPI>(apiRouter);
 
     router.get("/routes", async req => {
+    
         return storage.routes;
     });
 
@@ -18,10 +20,12 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage)
         try
         {
             await storage.register(source, target);
+            log.interaction(`Added route: ${source} -> ${target}`);
             return { success: true };
         }
         catch(err)
         {
+            log.error(`Error adding route: ${err.toString()}`);
             return { success: false, error: err.toString() };
         }
 
