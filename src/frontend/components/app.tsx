@@ -10,6 +10,7 @@ export interface AppProps {
 
 interface AppState {
   backgroundImage: string;
+  authed: boolean;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -18,13 +19,14 @@ export class App extends Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
         this.state = { 
-            backgroundImage: ""
+            backgroundImage: "",
+            authed: false
         };
     }
 
     async componentDidMount() {
         const bg = new Image();
-        bg.src = "https://source.unsplash.com/daily?himalaya";
+        bg.src = "https://source.unsplash.com/daily?colorful";
         bg.onload = () => {
             this.setState({backgroundImage: bg.src});
         }
@@ -33,6 +35,7 @@ export class App extends Component<AppProps, AppState> {
     onAuth()
     {
         this.routes.loadRoutes();
+        this.setState({authed: true})
     }
 
     render(props: AppProps, state: AppState) {
@@ -48,7 +51,9 @@ export class App extends Component<AppProps, AppState> {
                             Birdcage
                         </div>
                         <div className="body">
-                            <Login onAuth={this.onAuth.bind(this)}/>
+                            <div className={state.authed ? "hidden" : "overlay"}>
+                                <Login onAuth={this.onAuth.bind(this)}/>
+                            </div>
                             <SetPassword />
                             <Routes path="/routes" ref={el => this.routes = el}/>
                         </div>
