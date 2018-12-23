@@ -54,7 +54,7 @@ export namespace log {
         console.log(prefix + "\t" + chalk.gray(time.local()) + "\t", ...msg);
     }
 
-    export const main           = (...msg: string[]) => logPrefix(chalk.red.bold("[entranced]"), ...msg);
+    export const main           = (...msg: string[]) => logPrefix(chalk.red.bold("[birdcage]"), ...msg);
     export const error           = (...msg: string[]) => logPrefix(chalk.red.bold("[ERROR]"), ...msg);
     export const server         = (...msg: string[]) => logPrefix(chalk.blue.bold("[Server]"), ...msg);
     export const interaction    = (...msg: string[]) => logPrefix(chalk.green.bold("[Interaction]"), ...msg);
