@@ -40,7 +40,7 @@ export async function main()
         bunyan: false
     });
 
-    const routeStorage = new RouteStorage(config_path, proxy);
+    const routeStorage = new RouteStorage(config_path, config.production, proxy);
     await routeStorage.load();
 
     const auth = new Auth("./config.json")

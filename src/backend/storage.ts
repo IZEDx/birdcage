@@ -8,7 +8,7 @@ export class RouteStorage
 {
     routes: Route[] = [];
 
-    constructor(private path: string, private proxy: ReverseProxy)
+    constructor(private path: string, private production: boolean, private proxy: ReverseProxy)
     {
     }
 
@@ -28,7 +28,7 @@ export class RouteStorage
             ssl: {
                 letsencrypt: {
                     email: route.email,
-                    production: false
+                    production: this.production
                 }
             }
         });

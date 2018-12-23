@@ -15,6 +15,7 @@ export interface Config
         admin: number;
     };
     certificates: string;
+    production: boolean;
     routes: Route[];
 }
 

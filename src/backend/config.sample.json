@@ -8,5 +8,6 @@
         "admin": 3330
     },
     "certificates": "/etc/letsencrypt",
+    "production": false,
     "routes": []
 }
