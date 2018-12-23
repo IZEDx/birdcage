@@ -3,6 +3,8 @@ export interface Route
 {
     source: string;
     target: string;
+    ssl: boolean;
+    email: string;
 }
 
 export interface AdminAPI {

@@ -1,6 +1,6 @@
 
 import { h, Component } from "preact";
-import { Routes } from "./pages/routes";
+import { Routes } from "./routes";
 //import Router from "preact-router";
 import { Login } from "./login";
 import { SetPassword } from "./setpassword";

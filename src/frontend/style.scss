@@ -61,6 +61,82 @@ body {
         display: grid;
         grid-template: 50px auto / auto;
 
+        .btn
+        { 
+            box-sizing: border-box;
+        }
+
+        .checkbox
+        {
+            position: relative;
+            padding-left: 42px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            background: none;
+            height: 36px;
+            line-height: 36px;
+            color: rgba(255, 255, 255, 0.8);
+
+            .box
+            {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 30px;
+                height: 30px;
+                box-sizing: border-box;
+                border: solid 0.5px rgba(255, 255, 255, 0.4);
+                color: rgba(255, 255, 255, 1);
+                font-size: 25px;
+                line-height: 30px;
+                vertical-align: center;
+                margin: 3px !important;
+            }
+        }
+
+        input[type=text]
+        {
+            box-sizing: border-box;
+            width: 100%;
+            padding-left: 5px;
+            height: 100%;
+            background: none;
+            border: none;
+            outline: none;
+            border-bottom: 2px solid;
+            border-color: rgba(255, 255, 255, 0.5);
+            transition: border-color 0.2s;
+            color: #dedede;
+            font-size: 16px;
+            &:hover
+            {
+                border-color: rgba(255, 255, 255, 0.7);
+            }
+            &:focus
+            {
+                border-color: rgba(255, 255, 255, 1);
+            }
+        }
+
+        .btn
+        {
+            background-color: rgba(255, 255, 255, 0.4);
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 16px;
+            border: 1px solid;
+            border-color: transparent;
+            transition: border-color 0.2s, background-color 0.2s;
+            
+            &:hover
+            {
+                border-color: rgba(255, 255, 255, 0.5);
+                background-color: rgba(255, 255, 255, 0.7);
+            }
+        }
+
         .header
         {
             height: 50px;
@@ -133,6 +209,7 @@ body {
             {
                 .routelist
                 {
+                    box-sizing: border-box;
                     width: 100%;
                     margin-top: 10px;
 
@@ -142,23 +219,45 @@ body {
                         display: grid;
                         background-color: rgba(255,255,255,0.1);
                         margin-bottom: 10px;
-                        grid-template: auto / 1fr 1fr 50px;
-                        padding: 10px;
-                        column-gap: 10px;
+                        grid-template: 50px 50px 50px / 1fr 1fr 50px;
                         height: 50px;
+                        transition: height 0.5s;
                         width: 100%;
-                        
-                        input[type=text]
+                        overflow: hidden;
+                    
+                        div, button
                         {
-                            box-sizing: border-box;
-                            width: 100%;
-                            padding-left: 5px;
-                            height: 100%;
+                            margin: 7px;
                         }
 
-                        .source, .target
+                        &.add
                         {
-                            line-height: 30px;
+                            grid-template: 50px 50px 50px / 1fr 1fr;
+                        }
+
+                        .only-expanded
+                        {
+                            opacity: 0;
+                            transition: opacity 0.2s;
+                        }
+
+                        &.expanded
+                        {
+                            height: auto;
+                            .only-expanded
+                            {
+                                opacity: 1;
+                            }
+                        }
+
+                        .source, .target, .email
+                        {
+                            line-height: 36px;
+                        }
+
+                        .addbtn
+                        {
+                            grid-column: 2;
                         }
                     }
                 }
