@@ -13,8 +13,9 @@ export interface Config
         https: number;
         letsencrypt: number;
         admin: number;
-    },
-    routes: Route[]
+    };
+    certificates: string;
+    routes: Route[];
 }
 
 export async function loadConfig<T extends {} = Config>(path: string = "./config.json"): Promise<T>

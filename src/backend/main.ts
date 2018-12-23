@@ -30,11 +30,11 @@ export async function main()
     const proxy = redbird({
         port: config.ports.http,
         letsencrypt: {
-          path: "./certs",
+          path: config.certificates,
           port: config.ports.letsencrypt 
         },
         ssl: {
-          http2: true,
+          http2: false,
           port: config.ports.https, 
         },
         bunyan: false
