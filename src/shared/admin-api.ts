@@ -6,6 +6,31 @@ export interface Route
 }
 
 export interface AdminAPI {
+    "/auth": {
+        GET: {
+            response: {
+                authed: boolean
+            }
+        },
+        POST: {
+            body: {
+                password: string
+            },
+            response: {
+                success: boolean
+                error?: string
+            }
+        },
+        PUT: {
+            body: {
+                password: string
+            },
+            response: {
+                success: boolean
+                error?: string
+            }
+        }
+    }
     '/routes': {
         POST: {
             body: Route

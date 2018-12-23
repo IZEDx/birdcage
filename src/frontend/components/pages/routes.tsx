@@ -20,7 +20,12 @@ export class Routes extends Component<RoutesProps, RoutesState> {
         };
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.loadRoutes();
+    }
+
+    async loadRoutes()
+    {
         const {data} = await api.get("/routes");
         this.setState({ routes: data });
     }

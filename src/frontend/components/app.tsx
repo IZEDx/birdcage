@@ -2,7 +2,8 @@
 import { h, Component } from "preact";
 import { Routes } from "./pages/routes";
 //import Router from "preact-router";
-import { Menu } from "./menu";
+import { Login } from "./login";
+import { SetPassword } from "./setpassword";
 
 export interface AppProps {
 }
@@ -12,6 +13,8 @@ interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
+    routes: Routes = undefined as any;
+
     constructor(props: AppProps) {
         super(props);
         this.state = { 
@@ -27,6 +30,11 @@ export class App extends Component<AppProps, AppState> {
         }
     }
 
+    onAuth()
+    {
+        this.routes.loadRoutes();
+    }
+
     render(props: AppProps, state: AppState) {
         return (
                 <div className="app-container">
@@ -40,7 +48,9 @@ export class App extends Component<AppProps, AppState> {
                             Birdcage
                         </div>
                         <div className="body">
-                            <Routes path="/routes" />
+                            <Login onAuth={this.onAuth.bind(this)}/>
+                            <SetPassword />
+                            <Routes path="/routes" ref={el => this.routes = el}/>
                         </div>
                     </div>
                 </div>

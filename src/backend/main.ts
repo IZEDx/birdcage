@@ -11,6 +11,7 @@ import { log, randomSequence } from "./libs/utils";
 import {redbird} from "./libs/redbird";
 import { RouteStorage } from "./storage";
 import { registerAPI } from "./api";
+import { Auth } from "./auth";
 
 const path = (...str: string[]) => join(__dirname, ...str);
 const config_path = "./config.json"
@@ -38,9 +39,12 @@ export async function main()
         },
         bunyan: false
     });
-    const routeStorage = new RouteStorage(config_path, proxy);
 
+    const routeStorage = new RouteStorage(config_path, proxy);
     await routeStorage.load();
+
+    const auth = new Auth("./config.json")
+    await auth.load();
 
     const app = express();
     const server = createServer(app);
@@ -56,7 +60,7 @@ export async function main()
     }));
     
     const apiRouter = Router();
-    registerAPI(apiRouter, routeStorage);
+    registerAPI(apiRouter, routeStorage, auth);
     app.use("/api", apiRouter);
 
     server.listen(config.ports.admin, () => {
