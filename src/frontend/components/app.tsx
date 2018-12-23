@@ -1,41 +1,49 @@
 
 import { h, Component } from "preact";
-import { api } from "../api";
-import { Route } from "../../shared/admin-api";
-import { Routes } from "./routes";
-import { AddRoute } from "./addroute";
+import { Routes } from "./pages/routes";
+//import Router from "preact-router";
+import { Menu } from "./menu";
 
 export interface AppProps {
 }
+
 interface AppState {
-  routes: Route[];
+  backgroundImage: string;
 }
+
 export class App extends Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
         this.state = { 
-            routes: [] 
+            backgroundImage: ""
         };
     }
 
     async componentDidMount() {
-        const {data} = await api.get("/routes");
-        this.setState({ routes: data });
-    }
-
-    async routeAdded(source: string, target: string)
-    {
-        this.setState({
-            routes: [...this.state.routes, {source, target}]
-        });
+        const bg = new Image();
+        bg.src = "https://source.unsplash.com/daily?himalaya";
+        bg.onload = () => {
+            this.setState({backgroundImage: bg.src});
+        }
     }
 
     render(props: AppProps, state: AppState) {
         return (
-            <section className="routesContainer">
-                <Routes routes={this.state.routes}></Routes>
-                <AddRoute routeAdded={this.routeAdded.bind(this)} />
-            </section>
+                <div className="app-container">
+                    <div 
+                        className={`app-background ${this.state.backgroundImage === "" ? "" : "visible"}`} 
+                        style={{"backgroundImage": `url(${this.state.backgroundImage})`}} 
+                    />
+                    <div className="app">
+                        <div className="header">
+                            <span className="logo" />
+                            Birdcage
+                        </div>
+                        <div className="body">
+                            <Routes path="/routes" />
+                        </div>
+                    </div>
+                </div>
         );
     }
 }

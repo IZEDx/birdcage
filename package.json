@@ -36,10 +36,17 @@
     "chalk": "^2.4.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "frontend": "^1.0.3",
     "preact": "^8.2.9",
+    "preact-router": "^2.6.1",
     "pretty-json-stringify": "0.0.2",
     "redbird": "^0.9.0",
     "restyped-axios": "^2.0.0",
     "restyped-express-async": "^0.6.1"
+  },
+  "alias": {
+    "shared": "./src/shared",
+    "frontend": "./src/frontend",
+    "backend": "./src/backend"
   }
 }

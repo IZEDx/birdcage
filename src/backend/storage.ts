@@ -25,8 +25,8 @@ export class RouteStorage
     {
         if (this.routes.filter(r => r.source === source && r.target === target).length === 0)
         {
-            this.routes.push({source, target});
             this.proxy.register(source, target);
+            this.routes = [{source, target}, ...this.routes];
             return updateConfig<Config>({routes: this.routes});
         }
         throw new Error("Route already exists!");

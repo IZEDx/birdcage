@@ -30,5 +30,21 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage)
         }
 
     });
+
+    router.delete("/routes/:source/:target", async req => {
+        const {source, target} = req.params;
+        
+        try
+        {
+            await storage.unregister(source, target);
+            log.interaction(`Deleted route: ${source} -> ${target}`);
+            return { success: true };
+        }
+        catch(err)
+        {
+            log.error(`Error deleting route: ${err.toString()}`);
+            return { success: false, error: err.toString() };
+        }
+    });
 }
 

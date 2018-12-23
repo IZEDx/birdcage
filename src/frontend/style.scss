@@ -20,4 +20,158 @@ body {
             color: #222222;
         }
     }
+
+    div 
+    {
+        color: #ededed;
+        font-family: Montserrat, bold;
+        font-size: 15px;
+    }
+    
+    main
+    {
+        width: 100vw;
+        height: 100vh;
+    }
 }
+
+.app-container
+{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    box-sizing: border-box;
+    --bg-color: #7D7DDD;
+    background-color: var(--bg-color);
+    left: 0;
+    top: 0;
+    display: grid;
+    grid-template: [app] auto / [app] auto;
+
+    .app-background
+    {
+        display: none;
+    }
+
+    .app
+    {
+        grid-area: app;
+        width: 100%;
+        justify-self: center;
+        display: grid;
+        grid-template: 50px auto / auto;
+
+        .header
+        {
+            height: 50px;
+            line-height: 50px;
+            font-size: 22px;
+            padding-left: 10px;
+            min-height: 50px;
+
+            .logo
+            {
+                padding: 10px 25px;
+                background-image: url(./img/birdcage.png);
+                background-size: contain;
+            }
+        }
+
+        .body
+        {
+            background-color: rgba(24, 25, 26, 0.92);
+            padding: 0px 10px;
+            min-height: 0px;
+            overflow-y: auto;
+            height: 100%;
+
+            .routes
+            {
+                .routelist
+                {
+                    width: 100%;
+                    margin-top: 10px;
+
+                    .route
+                    {
+                        box-sizing: border-box;
+                        display: grid;
+                        background-color: rgba(255,255,255,0.1);
+                        margin-bottom: 10px;
+                        grid-template: auto / 1fr 1fr 50px;
+                        padding: 10px;
+                        column-gap: 10px;
+                        height: 50px;
+                        width: 100%;
+                        
+                        input[type=text]
+                        {
+                            box-sizing: border-box;
+                            width: 100%;
+                            padding-left: 5px;
+                            height: 100%;
+                        }
+
+                        .source, .target
+                        {
+                            line-height: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px)
+{
+    .app-container
+    {
+        background: linear-gradient(to bottom, var(--bg-color) 25%, #1D1D1D 75%);
+        grid-template: 90px [app] auto 30px 45px / 100px [app] auto 100px !important;
+
+        .app-background
+        {
+            display: block !important;
+            z-index: 0;
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background-position: center center;
+            background-size: cover;
+            opacity: 0;
+            filter: grayscale(60%);
+            transition: opacity 1.5s ease;
+
+            &.visible
+            {
+                opacity: 0.7;
+            }
+        }
+
+        .app
+        {
+            z-index: 1;
+            max-width: 1150px;
+            box-shadow: 0px 15px 50px -6px rgba(0,0,0,0.3);
+
+            .header
+            {
+                backdrop-filter: blur(20px);
+                background-color: rgba(80, 80, 120, 0.3);
+                border: solid 0.5px rgba(0, 0, 0, 0.1);
+                border-bottom: none;
+            }
+
+            .body
+            {
+                background-color: rgba(24, 25, 29, 0.72);
+                backdrop-filter: blur(20px);
+                border: solid 0.5px rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+}
+

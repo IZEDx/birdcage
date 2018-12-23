@@ -17,7 +17,13 @@
             "esnext",
             "dom"
         ],
-        "outDir": "dist"
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "shared/*": [ "/src/shared/*" ],
+            "frontend/*": [ "/src/frontend/*" ],
+            "backend/*": [ "/src/backend/*" ]
+        }
     },
     "exclude": [
       "types",

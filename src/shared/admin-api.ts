@@ -8,10 +8,7 @@ export interface Route
 export interface AdminAPI {
     '/routes': {
         POST: {
-            body: {
-                source: string
-                target: string
-            }
+            body: Route
             response: {
                 success: boolean
                 error?: string
@@ -19,6 +16,18 @@ export interface AdminAPI {
         },
         GET: {
             response: Route[]
+        }
+    },
+    "/routes/:source/:target": {
+        DELETE: {
+            params: {
+                source: string,
+                target: string
+            },
+            response: {
+                success: boolean
+                error?: string
+            }
         }
     }
   }
