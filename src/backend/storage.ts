@@ -18,8 +18,20 @@ export class RouteStorage
         this.routes = config.routes;
         for (const route of this.routes)
         {
-            this.proxy.register(route.source, route.target);
+            this.registerRoute(route);
         }
+    }
+
+    private registerRoute(route: Route)
+    {
+        this.proxy.register(route.source, route.target, !route.ssl ? {} : {
+            ssl: {
+                letsencrypt: {
+                    email: route.email,
+                    production: false
+                }
+            }
+        });
     }
 
     async register(route: Route)
@@ -29,21 +41,13 @@ export class RouteStorage
             throw new Error("Need to specify an email address when using ssl");
         }
 
-        const {source, target} = route;
-        const idx = this.routes.findIndex(r => r.source === source && r.target === target);
+        const idx = this.routes.findIndex(r => r.source === route.source && r.target === route.target);
         if (idx >= 0)
         {
             this.routes.splice(idx, 1);
-            this.proxy.unregister(source, target);
+            this.proxy.unregister(route.source, route.target);
         }
-        this.proxy.register(source, target, !route.ssl ? {} : {
-            ssl: {
-                letsencrypt: {
-                    email: route.email,
-                    production: false
-                }
-            }
-        });
+        this.registerRoute(route);
         this.routes = [route, ...this.routes];
         return updateConfig<Config>({routes: this.routes});
     }
