@@ -1,11 +1,12 @@
 import { loadConfig, Config, updateConfig } from "./libs/config";
 import { ReverseProxy } from "./libs/redbird";
+import { Route } from "src/shared/admin-api";
 
 
 
 export class RouteStorage
 {
-    routes: Config["routes"] = [];
+    routes: Route[] = [];
 
     constructor(private path: string, private proxy: ReverseProxy)
     {
@@ -21,15 +22,30 @@ export class RouteStorage
         }
     }
 
-    async register(source: string, target: string)
+    async register(route: Route)
     {
-        if (this.routes.filter(r => r.source === source && r.target === target).length === 0)
+        if (route.ssl && route.email === "")
         {
-            this.proxy.register(source, target);
-            this.routes = [{source, target}, ...this.routes];
-            return updateConfig<Config>({routes: this.routes});
+            throw new Error("Need to specify an email address when using ssl");
         }
-        throw new Error("Route already exists!");
+
+        const {source, target} = route;
+        const idx = this.routes.findIndex(r => r.source === source && r.target === target);
+        if (idx >= 0)
+        {
+            this.routes.splice(idx, 1);
+            this.proxy.unregister(source, target);
+        }
+        this.proxy.register(source, target, !route.ssl ? {} : {
+            ssl: {
+                letsencrypt: {
+                    email: route.email,
+                    production: true
+                }
+            }
+        });
+        this.routes = [route, ...this.routes];
+        return updateConfig<Config>({routes: this.routes});
     }
 
     async unregister(source: string, target: string)

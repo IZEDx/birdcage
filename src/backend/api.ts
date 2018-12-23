@@ -75,7 +75,7 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
 
         try
         {
-            await storage.register(source, target);
+            await storage.register(req.body);
             log.interaction(`Added route: ${source} -> ${target}`);
             return { success: true };
         }

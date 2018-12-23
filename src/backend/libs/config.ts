@@ -1,4 +1,5 @@
 import { log, readFile, writeFile } from "./utils";
+import { Route } from "src/shared/admin-api";
 
 const prettyJSON = require("pretty-json-stringify");
 const sampleConfig = require("../config.sample.json");
@@ -13,10 +14,7 @@ export interface Config
         letsencrypt: number;
         admin: number;
     },
-    routes: {
-        source: string,
-        target: string
-    }[]
+    routes: Route[]
 }
 
 export async function loadConfig<T extends {} = Config>(path: string = "./config.json"): Promise<T>
