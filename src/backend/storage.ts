@@ -40,7 +40,7 @@ export class RouteStorage
             ssl: {
                 letsencrypt: {
                     email: route.email,
-                    production: true
+                    production: false
                 }
             }
         });

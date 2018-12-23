@@ -7,6 +7,6 @@
         "letsencrypt": 9990,
         "admin": 3330
     },
-    "certificates": "/etc/letsencrypt/certs",
+    "certificates": "/etc/letsencrypt",
     "routes": []
 }
