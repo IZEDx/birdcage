@@ -62,16 +62,16 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
                         : <i className="fa fa-caret-down"></i>
                     }
                 </button>
-                <div className="ssl only-expanded">
+                <div className="ssl">
                     <Checkbox label="HTTPS" checked={this.props.route.ssl} onChanged={checked => this.setRoute("ssl", checked)} />
                 </div>
-                <div className="email only-expanded">
+                <div className="email">
                     <Input placeholder="Owner email" value={this.state.route.email} onChanged={val => this.setRoute("email", val)} onSubmit={this.onUpdate.bind(this)} />
                 </div>
-                <button type="button" onClick={this.onUpdate.bind(this)} className="btn save only-expanded">
+                <button type="button" onClick={this.onUpdate.bind(this)} className="btn save">
                     <i className="fa fa-save"></i>
                 </button>
-                <button type="button" onClick={this.onDelete.bind(this)} className="btn delete only-expanded">
+                <button type="button" onClick={this.onDelete.bind(this)} className="btn delete">
                     <i className="fa fa-trash"></i>
                 </button>
             </div>
