@@ -1,6 +1,7 @@
 
 import { h, Component } from "preact";
 import { api } from "../api";
+import { Input } from "./input";
 
 export interface LoginProps {
     onAuth(): void;
@@ -38,7 +39,11 @@ export class Login extends Component<LoginProps, LoginState> {
         return (
             <div className="login">
                 <div className="password">
-                    <input type="password" placeholder="Password" onChange={(evt: any) => this.setState({password: evt.target.value})} />
+                    <Input 
+                        type="password" placeholder="Password" 
+                        onChanged={val => this.setState({password: val})}
+                        onSubmit={this.onLogin.bind(this)}
+                    />
                 </div>
                 <button type="button" onClick={this.onLogin.bind(this)} className="btn">
                     Login

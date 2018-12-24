@@ -34,6 +34,7 @@ export class Routes extends Component<RoutesProps, RoutesState> {
 
     async onAdd(route: Route)
     {
+        console.log(route);
         this.setState({
             routes: [route, ...this.state.routes]
         });
@@ -55,7 +56,7 @@ export class Routes extends Component<RoutesProps, RoutesState> {
                 <div className="routelist">
                     <AddRoute onRouteAdded={this.onAdd.bind(this)}/>
                     {this.state.routes.map(route => 
-                        <RouteEntry route={route} onDeleted={this.onDelete.bind(this)}/>
+                        <RouteEntry route={route} onDeleted={this.onDelete.bind(this)} key={route.source + ";" + route.target}/>
                     )}
                 </div>
             </div>

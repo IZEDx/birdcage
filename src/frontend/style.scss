@@ -95,7 +95,8 @@ body {
             }
         }
 
-        input[type=text]
+        input[type=text],
+        input[type=password]
         {
             box-sizing: border-box;
             width: 100%;
@@ -176,6 +177,7 @@ body {
                 height: 100%;
                 background-color: rgba(24, 25, 29, 0.72);
                 backdrop-filter: blur(20px);
+                z-index: 2;
                 
                 .login
                 {

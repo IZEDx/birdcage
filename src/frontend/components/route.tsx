@@ -3,14 +3,15 @@ import { h, Component } from "preact";
 import { api } from "../api";
 import { Route } from "../../shared/admin-api";
 import { Checkbox } from "./checkbox";
+import { Input } from "./input";
 
 export interface RouteProps {
     route: Route;
     onDeleted(route: Route): void;
 }
 interface RouteState {
-    route: Route;
     expanded: boolean;
+    route: Route;
 }
 export class RouteEntry extends Component<RouteProps, RouteState> {
     constructor(props: RouteProps) {
@@ -23,11 +24,11 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
 
     async onDelete()
     {
-        const {source, target} = this.state.route;
+        const {source, target} = this.props.route;
         const {data} = await api.delete<"/routes/:source/:target">(`/routes/${encodeURIComponent(source)}/${encodeURIComponent(target)}`);
         if (data.success)
         {
-            this.props.onDeleted(this.state.route);
+            this.props.onDeleted(this.props.route);
         }
         else
         {
@@ -37,12 +38,12 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
 
     onUpdate()
     {
-        console.log("Update", this.state.route);
+        console.log("Update", this.props.route);
     }
 
     setRoute<K extends keyof Route>(key: K, value: Route[K])
     {
-        this.setState({route: {...this.state.route, [key]: value}})
+        this.setState({route: {...this.props.route, [key]: value}})
     }
 
     toggleExpansion()
@@ -53,8 +54,8 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
     render(props: RouteProps, state: RouteState) {
         return (
             <div className={`route ${state.expanded ? "expanded" : ""}`}>
-                <div className="source">{ this.state.route.source }</div>
-                <div className="target">{ this.state.route.target }</div>
+                <div className="source">{ this.props.route.source }</div>
+                <div className="target">{ this.props.route.target }</div>
                 <button type="button" onClick={this.toggleExpansion.bind(this)} className="btn expand">
                     {this.state.expanded
                         ? <i className="fa fa-caret-up"></i>
@@ -65,7 +66,7 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
                     <Checkbox label="HTTPS" checked={this.props.route.ssl} onChanged={checked => this.setRoute("ssl", checked)} />
                 </div>
                 <div className="email only-expanded">
-                    <input type="text" placeholder="Owner email" value={this.props.route.email} onChange={(evt: any) => this.setRoute("email", evt.target.value)} />
+                    <Input placeholder="Owner email" value={this.state.route.email} onChanged={val => this.setRoute("email", val)} onSubmit={this.onUpdate.bind(this)} />
                 </div>
                 <button type="button" onClick={this.onUpdate.bind(this)} className="btn save only-expanded">
                     <i className="fa fa-save"></i>
