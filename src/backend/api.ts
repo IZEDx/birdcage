@@ -72,8 +72,6 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
             return { success: false, error: "Not logged in!" };
         }
 
-        console.log(req.session);
-
         (<any>req).session.authed = false;
 
         return { success: true };
