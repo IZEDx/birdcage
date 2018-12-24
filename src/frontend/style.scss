@@ -167,6 +167,26 @@ body {
                 background-image: url(./img/birdcage.png);
                 background-size: contain;
             }
+            
+            .right
+            {
+                float: right;
+                width: auto;
+
+                .btn
+                {
+                    height: 50px;
+                    width: 50px;
+                    font-size: 30px;
+                    background-color: rgba(255,255,255,0.1);
+                    border: none;
+    
+                    &:hover
+                    {
+                        background-color: rgba(255,255,255,0.3);
+                    }
+                }
+            }
         }
 
         .body
@@ -194,7 +214,7 @@ body {
                 backdrop-filter: blur(20px);
                 z-index: 2;
                 
-                .login
+                .login, .setpassword
                 {
                     position: absolute;
                     left: 50%;
@@ -276,6 +296,8 @@ body {
                         .addbtn
                         {
                             grid-column: 2;
+                            width: 36px;
+                            justify-self: right;
                         }
 
                         .delete

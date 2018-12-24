@@ -7,18 +7,27 @@ import { log } from "./libs/utils";
 import { Auth } from "./auth";
 import { RestypedRoute } from "restyped";
 
-const authed = (req: TypedRequest<any>) => !!(req.session && req.session.authed);
+const checkAuth = (req: TypedRequest<any>) => !!(req.session && req.session.authed);
 
 export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth)
 {
     const router = RestypedRouter<AdminAPI>(apiRouter);
 
-    router.get("/auth", async req => ({authed: authed(req)}));
+    router.get("/auth", async req => {
+        let authed = checkAuth(req);
+        if (!authed && await auth.checkPassword("") && req.session)
+        {
+            req.session.authed = true;
+            authed = true;
+        }
+
+        return {authed};
+    });
 
     router.put("/auth", async req => {
         const pw = req.body.password;
 
-        if (!authed(req))
+        if (!checkAuth(req))
         {
             return { success: false, error: "Not logged in!" };
         }
@@ -56,9 +65,23 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
         }
     });
 
+    router.delete("/auth", async req => {
+
+        if (!checkAuth(req))
+        {
+            return { success: false, error: "Not logged in!" };
+        }
+
+        console.log(req.session);
+
+        (<any>req).session.authed = false;
+
+        return { success: true };
+    });
+
     router.get("/routes", async req => {
     
-        if (!authed(req))
+        if (!checkAuth(req))
         {
             return [];
         }
@@ -68,7 +91,7 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
     router.post("/routes", async req => {
         const {source, target} = req.body;
 
-        if (!authed(req))
+        if (!checkAuth(req))
         {
             return { success: false, error: "Not logged in!" };
         }
@@ -90,7 +113,7 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
     router.delete("/routes/:source/:target", async req => {
         const {source, target} = req.params;
 
-        if (!authed(req))
+        if (!checkAuth(req))
         {
             return { success: false, error: "Not logged in!" };
         }

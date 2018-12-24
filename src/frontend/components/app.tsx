@@ -4,6 +4,7 @@ import { Routes } from "./routes";
 //import Router from "preact-router";
 import { Login } from "./login";
 import { SetPassword } from "./setpassword";
+import { api } from "../api";
 
 export interface AppProps {
 }
@@ -11,6 +12,7 @@ export interface AppProps {
 interface AppState {
   backgroundImage: string;
   authed: boolean;
+  settings: boolean;
 }
 
 export class App extends Component<AppProps, AppState> {
@@ -20,7 +22,8 @@ export class App extends Component<AppProps, AppState> {
         super(props);
         this.state = { 
             backgroundImage: "",
-            authed: false
+            authed: false,
+            settings: false
         };
     }
 
@@ -38,6 +41,25 @@ export class App extends Component<AppProps, AppState> {
         this.setState({authed: true})
     }
 
+    toggleSettings()
+    {
+        this.setState({settings: !this.state.settings});
+    }
+
+    
+    async onLogout()
+    {
+        const {data} = await api.delete("/auth");
+        if (data.success)
+        {
+            location.reload(true);
+        }
+        else
+        {
+            alert(data.error);
+        }
+    }
+
     render(props: AppProps, state: AppState) {
         return (
                 <div className="app-container">
@@ -49,13 +71,25 @@ export class App extends Component<AppProps, AppState> {
                         <div className="header">
                             <span className="logo" />
                             Birdcage
+                            {!state.authed ? "" : 
+                                <div className="right">
+                                    <button type="button" onClick={this.toggleSettings.bind(this)} className="btn settings">
+                                        <i className="fa fa-gear"></i>
+                                    </button>
+                                    <button type="button" onClick={this.onLogout.bind(this)} className="btn logout">
+                                        <i className="fa fa-sign-out"></i>
+                                    </button>
+                                </div>
+                            }                            
                         </div>
                         <div className="body">
+                            <Routes path="/routes" ref={el => this.routes = el}/>
+                            <div className={state.settings ? "overlay" : "hidden"}>
+                                <SetPassword onChanged={this.toggleSettings.bind(this)}/>
+                            </div>
                             <div className={state.authed ? "hidden" : "overlay"}>
                                 <Login onAuth={this.onAuth.bind(this)}/>
                             </div>
-                            <SetPassword />
-                            <Routes path="/routes" ref={el => this.routes = el}/>
                         </div>
                     </div>
                 </div>

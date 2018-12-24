@@ -31,6 +31,12 @@ export interface AdminAPI {
                 success: boolean
                 error?: string
             }
+        },
+        DELETE: {
+            response: {
+                success: boolean
+                error?: string
+            }
         }
     }
     '/routes': {
