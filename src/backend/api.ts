@@ -14,26 +14,34 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
     const router = RestypedRouter<AdminAPI>(apiRouter);
 
     router.get("/auth", async req => {
-        let authed = checkAuth(req);
-        if (!authed && await auth.checkPassword("") && req.session)
+        try
         {
-            req.session.authed = true;
-            authed = true;
-        }
+            let authed = checkAuth(req);
+            if (!authed && await auth.checkPassword("") && req.session)
+            {
+                req.session.authed = true;
+                authed = true;
+            }
 
-        return {authed};
+            return {authed};
+        }
+        catch(err)
+        {
+            log.error(`Error getting auth: ${err.toString()}`);
+            return { authed: false };
+        }
     });
 
     router.put("/auth", async req => {
-        const pw = req.body.password;
-
-        if (!checkAuth(req))
-        {
-            return { success: false, error: "Not logged in!" };
-        }
-
         try
         {
+            const pw = req.body.password;
+    
+            if (!checkAuth(req))
+            {
+                throw new Error("Not logged in!");
+            }
+
             await auth.setPassword(pw)
             return {success: true};
         }
@@ -87,15 +95,21 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
     });
 
     router.post("/routes", async req => {
-        const {source, target} = req.body;
-
-        if (!checkAuth(req))
-        {
-            return { success: false, error: "Not logged in!" };
-        }
-
         try
         {
+            const {source, target} = req.body;
+    
+            if (!checkAuth(req))
+            {
+                throw new Error("Not logged in!");
+            }
+            
+            if (storage.getRoute(source, target))
+            {
+                throw new Error("Route already exists!");
+            }
+
+
             await storage.register(req.body);
             log.interaction(`Added route: ${source} -> ${target}`);
             return { success: true };
@@ -108,16 +122,38 @@ export function registerAPI(apiRouter: Router, storage: RouteStorage, auth: Auth
 
     });
 
-    router.delete("/routes/:source/:target", async req => {
-        const {source, target} = req.params;
-
-        if (!checkAuth(req))
-        {
-            return { success: false, error: "Not logged in!" };
-        }
-
+    router.put("/routes/:source/:target", async req => {
         try
         {
+            const {source, target} = req.body;
+    
+            if (!checkAuth(req))
+            {
+                throw new Error("Not logged in!");
+            }
+
+            await storage.register(req.body);
+            log.interaction(`Updated route: ${source} -> ${target}`);
+            return { success: true };
+        }
+        catch(err)
+        {
+            log.error(`Error adding route: ${err.toString()}`);
+            return { success: false, error: err.toString() };
+        }
+
+    });
+
+    router.delete("/routes/:source/:target", async req => {
+        try
+        {
+            const {source, target} = req.params;
+    
+            if (!checkAuth(req))
+            {
+                throw new Error("Not logged in!");
+            }
+
             await storage.unregister(source, target);
             log.interaction(`Deleted route: ${source} -> ${target}`);
             return { success: true };

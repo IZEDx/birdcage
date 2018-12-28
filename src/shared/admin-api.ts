@@ -39,7 +39,7 @@ export interface AdminAPI {
             }
         }
     }
-    '/routes': {
+    "/routes": {
         POST: {
             body: Route
             response: {
@@ -52,6 +52,17 @@ export interface AdminAPI {
         }
     },
     "/routes/:source/:target": {
+        PUT: {
+            params: {
+                source: string,
+                target: string
+            },
+            body: Route,
+            response: {
+                success: boolean
+                error?: string
+            }
+        },
         DELETE: {
             params: {
                 source: string,

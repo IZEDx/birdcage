@@ -34,6 +34,23 @@ export class RouteStorage
         });
     }
 
+    private findRoute(source: string, target: string): {route: Route, idx: number}|undefined
+    {
+        const idx = this.routes.findIndex(r => r.source === source && r.target === target);
+        return idx >= 0 ? {route: this.routes[idx], idx} : undefined;
+    }
+
+    public getRoute(source: string, target: string): Route|undefined
+    {
+        const result = this.findRoute(source, target);
+        return result ? result.route : undefined;
+    }
+
+    private removeRoute(idx: number)
+    {
+        this.routes.splice(idx, 1);
+    }
+
     async register(route: Route)
     {
         if (route.ssl && route.email === "")
@@ -41,10 +58,10 @@ export class RouteStorage
             throw new Error("Need to specify an email address when using ssl");
         }
 
-        const idx = this.routes.findIndex(r => r.source === route.source && r.target === route.target);
-        if (idx >= 0)
+        const result = this.findRoute(route.source, route.target);
+        if (result)
         {
-            this.routes.splice(idx, 1);
+            this.removeRoute(result.idx);
             this.proxy.unregister(route.source, route.target);
         }
         this.registerRoute(route);
@@ -54,10 +71,10 @@ export class RouteStorage
 
     async unregister(source: string, target: string)
     {
-        const idx = this.routes.findIndex(r => r.source === source && r.target === target);
-        if (idx >= 0)
+        const result = this.findRoute(source, target);
+        if (result)
         {
-            this.routes.splice(idx, 1);
+            this.removeRoute(result.idx);
             this.proxy.unregister(source, target);
             return updateConfig<Config>({routes: this.routes});
         }

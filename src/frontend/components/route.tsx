@@ -8,6 +8,7 @@ import { Input } from "./input";
 export interface RouteProps {
     route: Route;
     onDeleted(route: Route): void;
+    onUpdated(route: Route): void;
 }
 interface RouteState {
     expanded: boolean;
@@ -36,9 +37,18 @@ export class RouteEntry extends Component<RouteProps, RouteState> {
         }
     }
 
-    onUpdate()
+    async onUpdate()
     {
-        console.log("Update", this.props.route);
+        const {source, target} = this.props.route;
+        const {data} = await api.put<"/routes/:source/:target">(`/routes/${encodeURIComponent(source)}/${encodeURIComponent(target)}`, this.state.route);
+        if (data.success)
+        {
+            this.props.onUpdated(this.state.route);
+        }
+        else
+        {
+            alert(data.error);
+        }
     }
 
     setRoute<K extends keyof Route>(key: K, value: Route[K])

@@ -50,13 +50,28 @@ export class Routes extends Component<RoutesProps, RoutesState> {
         }
     }
 
+    async onUpdated(route: Route)
+    {
+        const idx = this.state.routes.findIndex(r => r.source === route.source && r.target === route.target);
+        if (idx >= 0)
+        {
+            this.state.routes[idx] = route;
+            this.setState({routes: this.state.routes});
+        }
+    }
+
     render(props: RoutesProps, state: RoutesState) {
         return (
             <div className="routes">
                 <div className="routelist">
                     <AddRoute onRouteAdded={this.onAdd.bind(this)}/>
                     {this.state.routes.map(route => 
-                        <RouteEntry route={route} onDeleted={this.onDelete.bind(this)} key={route.source + ";" + route.target}/>
+                        <RouteEntry 
+                            route={route} 
+                            onDeleted={this.onDelete.bind(this)} 
+                            onUpdated={this.onUpdated.bind(this)} 
+                            key={route.source + ";" + route.target}
+                        />
                     )}
                 </div>
             </div>
