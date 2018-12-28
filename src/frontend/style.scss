@@ -194,10 +194,6 @@ body {
         {
             position: relative;
             background-color: rgba(24, 25, 26, 0.92);
-            padding: 0px 10px;
-            min-height: 0px;
-            overflow-y: auto;
-            max-height: 100vh;
 
             .hidden
             {
@@ -261,6 +257,11 @@ body {
 
             .routes
             {
+                min-height: 0px;
+                overflow-y: auto;
+                max-height: 100vh;
+                padding: 0px 10px;
+
                 .routelist
                 {
                     box-sizing: border-box;
@@ -377,6 +378,11 @@ body {
                 backdrop-filter: blur(20px);
                 border: solid 0.5px rgba(255, 255, 255, 0.1);
                 max-height: calc(100vh - 215px);
+
+                .routes
+                {
+                    max-height: calc(100vh - 215px);
+                }
 
                 .overlay
                 {
