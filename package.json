@@ -17,8 +17,8 @@
     "start": "node birdcage.js",
     "build-backend": "cross-env NODE_ENV=production parcel build src/backend/main.ts --public-url . --out-dir ./dist/ --target node",
     "dev-backend": "parcel watch src/backend/main.ts --out-dir ./dist/  --target node",
-    "build-frontend": "cross-env NODE_ENV=production parcel build src/frontend/index.html --public-url . --out-dir ./dist/www/",
-    "dev-frontend": "parcel watch src/frontend/index.html --public-url . --out-dir ./dist/www/",
+    "build-frontend": "cross-env NODE_ENV=production parcel build src/frontend/*.html --public-url . --out-dir ./dist/www/",
+    "dev-frontend": "parcel watch src/frontend/*.html --public-url . --out-dir ./dist/www/",
     "clear": "rm -rf .cache & rm -rf dist"
   },
   "browserslist": [

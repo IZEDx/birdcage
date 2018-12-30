@@ -1,4 +1,5 @@
 node_modules
 .cache
-config.json
+/config.json
 dist
+/404.html

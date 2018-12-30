@@ -4,14 +4,15 @@ import { readFile as rF, writeFile as wF } from "fs";
 
 export {chalk};
 
-
-export function readFile(path: string): Promise<Buffer>
+export function readFile(path: string, defaultContent?: Buffer): Promise<Buffer>
 {
     return new Promise((res, rej) =>
         rF(path, (err, data) => 
-            err !== null 
-            ? rej(err) 
-            : res(data)
+            err === null 
+            ? res(data) 
+            : err.code === "ENOENT" && defaultContent !== null
+                ? res(defaultContent)
+                : rej(err)
         )
     );
 }

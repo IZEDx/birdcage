@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 
 export const redbird = require("redbird") as Redbird;
 
@@ -20,4 +21,5 @@ export interface ReverseProxy
 {
     register(vhost: string, target: string, options?: {}): ReverseProxy;
     unregister(vhost: string, target: string): ReverseProxy;
+    notFound(cb: (req: Request, res: Response) => any): void;
 }

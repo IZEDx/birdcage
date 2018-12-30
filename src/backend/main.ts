@@ -6,7 +6,7 @@ import { static as serveStatic, Router } from "express";
 import { join } from "path";
 import { json, urlencoded } from "body-parser";
 import session = require("express-session");
-import { log, randomSequence } from "./libs/utils";
+import { log, randomSequence, readFile } from "./libs/utils";
 
 import {redbird} from "./libs/redbird";
 import { RouteStorage } from "./storage";
@@ -39,6 +39,14 @@ export async function main()
         },
         bunyan: false
     });
+
+
+    const page404 = await readFile("./404.html", await readFile(path("www", "404.html")))
+    proxy.notFound((req, res) => {
+        res.statusCode = 404;
+        res.write(page404);
+        res.end();
+    })
 
     const routeStorage = new RouteStorage(config_path, config.production, proxy);
     await routeStorage.load();
