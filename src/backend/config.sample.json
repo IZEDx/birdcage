@@ -9,5 +9,6 @@
     },
     "certificates": "/etc/letsencrypt",
     "production": false,
+    "404path": "./404.html",
     "routes": []
 }

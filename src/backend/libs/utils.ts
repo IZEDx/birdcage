@@ -8,11 +8,11 @@ export function readFile(path: string, defaultContent?: Buffer): Promise<Buffer>
 {
     return new Promise((res, rej) =>
         rF(path, (err, data) => 
-            err === null 
+            !err 
             ? res(data) 
-            : err.code === "ENOENT" && defaultContent !== null
+            : (err.code === "ENOENT" && defaultContent !== undefined
                 ? res(defaultContent)
-                : rej(err)
+                : rej(err))
         )
     );
 }

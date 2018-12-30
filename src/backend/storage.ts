@@ -66,7 +66,7 @@ export class RouteStorage
         }
         this.registerRoute(route);
         this.routes = [route, ...this.routes];
-        return updateConfig<Config>({routes: this.routes});
+        return updateConfig<Config>({routes: this.routes}, this.path);
     }
 
     async unregister(source: string, target: string)
@@ -76,7 +76,7 @@ export class RouteStorage
         {
             this.removeRoute(result.idx);
             this.proxy.unregister(source, target);
-            return updateConfig<Config>({routes: this.routes});
+            return updateConfig<Config>({routes: this.routes}, this.path);
         }
         throw new Error("Route doesn't exist!");
     }

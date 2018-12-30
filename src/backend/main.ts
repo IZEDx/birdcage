@@ -14,7 +14,7 @@ import { registerAPI } from "./api";
 import { Auth } from "./auth";
 
 const path = (...str: string[]) => join(__dirname, ...str);
-const config_path = "./config.json"
+const config_path = "./birdcage.json"
 
 export async function main()
 {
@@ -41,7 +41,7 @@ export async function main()
     });
 
 
-    const page404 = await readFile("./404.html", await readFile(path("www", "404.html")))
+    const page404 = await readFile(config["404path"], await readFile(path("www", "404.html")))
     proxy.notFound((req, res) => {
         res.statusCode = 404;
         res.write(page404);
@@ -51,7 +51,7 @@ export async function main()
     const routeStorage = new RouteStorage(config_path, config.production, proxy);
     await routeStorage.load();
 
-    const auth = new Auth("./config.json")
+    const auth = new Auth(config_path)
     await auth.load();
 
     const app = express();
@@ -72,6 +72,9 @@ export async function main()
     app.use("/api", apiRouter);
 
     server.listen(config.ports.admin, () => {
-        log.main(`Server started. Listening on port ${config.ports.admin}.`);
+        log.main(`Server started.`);
+        log.main(`Admin Panel listening on port ${config.ports.admin}.`);
+        log.main(`HTTP Proxy listening on port ${config.ports.http}.`);
+        log.main(`HTTPS Proxy listening on port ${config.ports.https}.`);
     });
 }

@@ -16,6 +16,7 @@ export interface Config
     };
     certificates: string;
     production: boolean;
+    "404path": string;
     routes: Route[];
 }
 
@@ -77,11 +78,9 @@ export async function saveConfig<T extends {} = Config>(config: Partial<T>, path
 
 export async function updateConfig<T extends {} = Config>(config: Partial<T>, path: string = "./config.json")
 {
-    const oldconf = await loadConfig(path);
+    const conf = await loadConfig(path);
 
-    Object.keys(oldconf)
-        .filter(  key => (<any>config)[key] === undefined )
-        .forEach( key => (<any>config)[key] = (<any>oldconf)[key] );
+    Object.keys(config).forEach( key => (<any>conf)[key] = (<any>config)[key] );
 
-    return saveConfig(config, path);
+    return saveConfig(conf, path);
 }
