@@ -8,6 +8,7 @@ export interface Config
 {
     session_secret: string;
     admin_password: string;
+    http2: boolean;
     ports: {
         http: number;
         https: number;

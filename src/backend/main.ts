@@ -34,7 +34,7 @@ export async function main()
           port: config.ports.letsencrypt 
         },
         ssl: {
-          http2: false,
+          http2: config.http2,
           port: config.ports.https, 
         },
         bunyan: false
@@ -60,7 +60,7 @@ export async function main()
     app.use(serveStatic(path("www"), {index: ["index.html"]}));
     app.use(urlencoded({ extended: true }));
     app.use(json());
-    app.use(session({
+    app.use(<any>session({
         secret: config.session_secret,
         resave: false,
         saveUninitialized: true,
