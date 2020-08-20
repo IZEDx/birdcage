@@ -35,7 +35,7 @@
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/connect-redis": "0.0.11",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "chalk": "^2.4.2",
     "connect-redis": "^4.0.3",
     "express": "^4.17.1",
