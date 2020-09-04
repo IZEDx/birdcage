@@ -28,7 +28,7 @@
     "@types/express": "^4.17.2",
     "@types/express-session": "^1.15.15",
     "cross-env": "latest",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "parcel-bundler": "latest",
     "typescript": "latest"
   },
